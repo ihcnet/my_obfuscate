@@ -3,10 +3,12 @@ require 'digest/md5'
 require 'ffaker'
 require 'walker_method'
 require 'parallel'
+require 'observer'
 
 # Class for obfuscating MySQL dumps. This can parse mysqldump outputs when using the -c option, which includes
 # column names in the insert statements.
 class MyObfuscate
+  include Observable
   attr_accessor :config, :globally_kept_columns, :fail_on_unspecified_columns, :database_type, :scaffolded_tables
 
   NUMBER_CHARS = "1234567890"
