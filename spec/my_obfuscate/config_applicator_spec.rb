@@ -291,6 +291,31 @@ describe MyObfuscate::ConfigApplicator do
     it "should make sentences of at least length" do
       expect(MyObfuscate::ConfigApplicator.random_english_sentences_of_length(2).length).to be > 2
     end
+
+    it "should handle a length of zero" do 
+      expect(MyObfuscate::ConfigApplicator.random_english_sentences_of_length(0)).to eq('')
+    end
   end
+
+  describe ".random_string" do
+    it "should handle a length of zero" do
+      expect(MyObfuscate::ConfigApplicator.random_string(0, ['A','B','C'])).to eq('')
+    end
+  end
+
+  describe ".clean_quotes" do
+    it "should handle nil" do
+      expect(MyObfuscate::ConfigApplicator.clean_quotes(nil)).to eq(nil)
+    end
+
+    it "should handle ''" do
+      expect(MyObfuscate::ConfigApplicator.clean_quotes('')).to eq('')
+    end
+
+    it "should not alter the type" do 
+      expect(MyObfuscate::ConfigApplicator.clean_quotes(17)).to eq(17)
+    end
+  end
+
 
 end

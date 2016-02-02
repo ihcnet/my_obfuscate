@@ -139,6 +139,7 @@ class MyObfuscate
     end
 
     def self.random_english_sentences_of_length(length)
+      
       @@walker_method ||= begin
         words, counts = [], []
         File.read(File.expand_path(File.join(File.dirname(__FILE__), 'data', 'en_50K.txt'))).each_line do |line|
@@ -148,19 +149,26 @@ class MyObfuscate
         end
         WalkerMethod.new(words, counts)
       end
-
-      words = []
-      running_length = 0
-      until running_length >= length
-        word = @@walker_method.random
-        words << word
-        running_length += (word.length + 1)
+      if length == 0 
+        ''
+      else
+        words = []
+        running_length = 0
+        until running_length >= length
+          word = @@walker_method.random
+          words << word
+          running_length += (word.length + 1)
+        end
+        words.join(' ')
       end
-      words.join(' ')
     end
 
     def self.clean_quotes(value)
-      value.gsub(/['"]/, '')
+      if (value.is_a? String) && value != nil
+        value.gsub(/['"]/, '')
+      else
+        value
+      end
     end
 
     def self.clean_bad_whitespace(value)
