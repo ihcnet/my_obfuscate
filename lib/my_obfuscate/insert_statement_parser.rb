@@ -41,6 +41,7 @@ class MyObfuscate
         # STDOUT.write output_line
         output_io.puts output_line
       end
+      obfuscator.changed
       obfuscator.notify_observers(output_buffer.length)
     end
 
