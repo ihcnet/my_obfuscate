@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "ffaker"
   s.add_dependency "walker_method"
-  s.add_dependency 
+  s.add_dependency "parallel"
   s.add_development_dependency "rspec"
 
   s.files         = `git ls-files`.split("\n")
