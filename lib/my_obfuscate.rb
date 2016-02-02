@@ -2,6 +2,7 @@ require 'jcode' if RUBY_VERSION < '1.9'
 require 'digest/md5'
 require 'ffaker'
 require 'walker_method'
+require 'parallel'
 
 # Class for obfuscating MySQL dumps. This can parse mysqldump outputs when using the -c option, which includes
 # column names in the insert statements.
@@ -107,10 +108,10 @@ class MyObfuscate
 
 end
 
-require 'my_obfuscate/copy_statement_parser'
-require 'my_obfuscate/insert_statement_parser'
-require 'my_obfuscate/config_scaffold_generator'
-require 'my_obfuscate/mysql'
-require 'my_obfuscate/sql_server'
-require 'my_obfuscate/postgres'
-require 'my_obfuscate/config_applicator'
+require_relative 'my_obfuscate/copy_statement_parser'
+require_relative 'my_obfuscate/insert_statement_parser'
+require_relative 'my_obfuscate/config_scaffold_generator'
+require_relative 'my_obfuscate/mysql'
+require_relative 'my_obfuscate/sql_server'
+require_relative 'my_obfuscate/postgres'
+require_relative 'my_obfuscate/config_applicator'

@@ -241,8 +241,8 @@ describe MyObfuscate::ConfigApplicator do
 
       it "should remove single quotes from the value" do
         new_row = MyObfuscate::ConfigApplicator.apply_table_config(["address", "city", "first", "last", "fullname", "some text"],
-                  {:a => :address, :b => :city, :c => :first_name, :d => :last_name, :e => :name, :f => :lorem},
-                  [:a, :b, :c, :d, :e, :f])
+                  {:a => :address, :b => :city, :c => :first_name, :d => :last_name, :e => :name, :f => :lorem, :g => {:type => :lambda, :delegate => lambda { |something| "i'd'k'" }}},
+                  [:a, :b, :c, :d, :e, :f, :g])
         new_row.each {|value| expect(value).not_to include("'")}
       end
     end
@@ -270,6 +270,26 @@ describe MyObfuscate::ConfigApplicator do
 
     it "should make random sentences" do
       expect(MyObfuscate::ConfigApplicator.random_english_sentences(2)).to match(/^(Hello( hello)+\.\s*){2}$/)
+    end
+  end
+
+
+  describe ".random_english_sentences_of_length" do
+    before do
+      expect(File).to receive(:read).once.and_return("hello 2")
+    end
+
+    after do
+      MyObfuscate::ConfigApplicator.class_variable_set(:@@walker_method, nil)
+    end
+
+    it "should only load file data once" do
+      MyObfuscate::ConfigApplicator.random_english_sentences_of_length(1)
+      MyObfuscate::ConfigApplicator.random_english_sentences_of_length(1)
+    end
+
+    it "should make sentences of at least length" do
+      expect(MyObfuscate::ConfigApplicator.random_english_sentences_of_length(2).length).to be > 2
     end
   end
 

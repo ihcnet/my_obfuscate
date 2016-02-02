@@ -80,6 +80,8 @@ class MyObfuscate
             nil
           when :keep
             row[index]
+          when :lambda
+            clean_quotes(definition[:delegate].call(row_hash))
           else
             $stderr.puts "Keeping a column value by providing an unknown type (#{definition[:type]}) is deprecated.  Use :keep instead."
             row[index]
@@ -134,6 +136,27 @@ class MyObfuscate
         sentences.last[0] = sentences.last[0].upcase
       end
       sentences.join(" ")
+    end
+
+    def self.random_english_sentences_of_length(length)
+      @@walker_method ||= begin
+        words, counts = [], []
+        File.read(File.expand_path(File.join(File.dirname(__FILE__), 'data', 'en_50K.txt'))).each_line do |line|
+          word, count = line.split(/\s+/)
+          words << word
+          counts << count.to_i
+        end
+        WalkerMethod.new(words, counts)
+      end
+
+      words = []
+      running_length = 0
+      until running_length >= length
+        word = @@walker_method.random
+        words << word
+        running_length += (word.length + 1)
+      end
+      words.join(' ')
     end
 
     def self.clean_quotes(value)

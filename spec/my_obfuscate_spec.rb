@@ -153,7 +153,7 @@ COPY some_table_to_keep (a, b) FROM stdin;
           ddo.obfuscate(input, output)
           input.rewind
           output.rewind
-          expect(output.read).to eq(string)
+          expect(output.read).to eq("#{string}\n")
         end
       end
 
@@ -462,6 +462,7 @@ COPY some_table_to_keep (a, b) FROM stdin;
       context "when there is nothing to obfuscate" do
         it "should accept an IO object for input and output, and copy the input to the output" do
           ddo = MyObfuscate.new
+          puts :sql_server
           ddo.database_type = :sql_server
           string = "hello, world\nsup?"
           input = StringIO.new(string)
@@ -469,7 +470,7 @@ COPY some_table_to_keep (a, b) FROM stdin;
           ddo.obfuscate(input, output)
           input.rewind
           output.rewind
-          expect(output.read).to eq(string)
+          expect(output.read).to eq("#{string}\n")
         end
       end
 
