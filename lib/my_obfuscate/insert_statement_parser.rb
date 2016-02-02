@@ -1,4 +1,8 @@
+require "observer"
+
 class MyObfuscate
+  include Observable
+
   module InsertStatementParser
 
     def parse(obfuscator, config, input_io, output_io)
@@ -26,9 +30,9 @@ class MyObfuscate
         output_buffer[index] = result
         # STDOUT.write "INSIDE: index:\r\n\t#{index}\r\nlength\r\n\t#{output_buffer.length}\r\n"
         # STDOUT.write "INSIDE\r\n"
-        output_buffer.each_with_index do |ob, i|
+        # output_buffer.each_with_index do |ob, i|
           # STDOUT.write "\tI#{i}\t#{ob}\r\n"
-        end
+        # end
       end
       # STDOUT.write "OUTSIDE:\r\n"
 
@@ -40,6 +44,7 @@ class MyObfuscate
         # STDOUT.write output_line
         output_io.puts output_line
       end
+      notify_observers(output_buffer.length)
     end
 
     def do_parse(line, obfuscator, config)
