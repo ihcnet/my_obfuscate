@@ -9,7 +9,7 @@ class MyObfuscate
       input_io.each do |line|
         buffer.push line
         buffer_size += 1
-        if buffer_size > max_buffer_size
+        if buffer_size >= max_buffer_size
           do_parse_parallel(buffer, obfuscator, config, output_io)
           buffer_size = 0
           buffer.clear
